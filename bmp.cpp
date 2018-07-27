@@ -60,7 +60,13 @@ int main(int argc, char *argv[])
 			}
 			temp_data += 65535/1250;
 		}
-		
+		//Invert endianness before getting the "RGB" vals
+		for (unsigned short *ptr = (unsigned short*)buffer + 1250*1250; ptr>(unsigned short*)buffer; ) 
+		{
+			const unsigned short val = *(--ptr);
+			*ptr = (unsigned short)((val>>8) | ((val<<8)));
+
+		}		
 		//Get RGB Color of every pixle ??? // Maybe we don't wan't the RGB Component? so Just the "alpha" channel
 		for(int i =0; i < 1250; i++)
 		{
@@ -80,6 +86,7 @@ int main(int argc, char *argv[])
 				//cout << red << " " <<green <<" " <<blue <<" " <<endl;
 			}
 		}
+		
 		
 		
 		//std::cout << sizeof(img);
