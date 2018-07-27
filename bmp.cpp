@@ -87,7 +87,71 @@ int main(int argc, char *argv[])
 			}
 		}
 		
-		
+		int temp = 0;
+		for(int i =0; i < 1250; i++)
+		{
+			unsigned int red   = (buffer[0][i] & 0x00ff0000) >> 16;
+			img[temp] = red; temp++;
+			unsigned int green = (buffer[0][i] & 0x0000ff00) >> 8;
+			img[temp] = green; temp++;
+			unsigned int blue  = (buffer[0][i] & 0x00ff00ff);
+			img[temp] = blue; temp++;
+			
+			
+			red   = (buffer[1][i] & 0x00ff0000) >> 16;
+			img[temp] = red; temp++;
+			green = (buffer[1][i] & 0x0000ff00) >> 8;
+			img[temp] = green; temp++;
+			blue  = (buffer[1][i] & 0x00ff00ff);
+			img[temp] = blue; temp++;
+			
+			
+			red   = (buffer[2][i] & 0x00ff0000) >> 16;
+			img[temp] = red; temp++;
+			green = (buffer[2][i] & 0x0000ff00) >> 8;
+			img[temp] = green; temp++;
+			blue  = (buffer[2][i] & 0x00ff00ff);
+			img[temp] = blue; temp++;
+			
+			red   = (buffer[3][i] & 0x00ff0000) >> 16;
+			img[temp] = red; temp++;
+			green = (buffer[3][i] & 0x0000ff00) >> 8;
+			img[temp] = green; temp++;
+			blue  = (buffer[3][i] & 0x00ff00ff);
+			img[temp] = blue; temp++;
+			
+			
+			red   = (buffer[4][i] & 0x00ff0000) >> 16;
+			img[temp] = red; temp++;
+			green = (buffer[4][i] & 0x0000ff00) >> 8;
+			img[temp] = green; temp++;
+			blue  = (buffer[4][i] & 0x00ff00ff);
+			img[temp] = blue; temp++;
+			
+			
+			red   = (buffer[5][i] & 0x00ff0000) >> 16;
+			img[temp] = red; temp++;
+			green = (buffer[5][i] & 0x0000ff00) >> 8;
+			img[temp] = green; temp++;
+			blue  = (buffer[5][i] & 0x00ff00ff);
+			img[temp] = blue; temp++;
+			
+			
+			red   = (buffer[6][i] & 0x00ff0000) >> 16;
+			img[temp] = red; temp++;
+			green = (buffer[6][i] & 0x0000ff00) >> 8;
+			img[temp] = green; temp++;
+			blue  = (buffer[6][i] & 0x00ff00ff);
+			img[temp] = blue; temp++;
+			
+			red   = (buffer[7][i] & 0x00ff0000) >> 16;
+			img[temp] = red; temp++;
+			green = (buffer[7][i] & 0x0000ff00) >> 8;
+			img[temp] = green; temp++;
+			blue  = (buffer[7][i] & 0x00ff00ff);
+			img[temp] = blue; temp++;
+			
+		}
 		
 		//std::cout << sizeof(img);
 		writeBMP(img,1250,1250);
