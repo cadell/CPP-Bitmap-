@@ -61,19 +61,23 @@ int main(int argc, char *argv[])
 			temp_data += 65535/1250;
 		}
 		
-		//Get RGB Color of every pixle ??? // Maybe we don't wan't the RGB Component? so Just the "alpha"
+		//Get RGB Color of every pixle ??? // Maybe we don't wan't the RGB Component? so Just the "alpha" channel
 		for(int i =0; i < 1250; i++)
 		{
 			for(int j =0; j < 1250; j++)
 			{
-				unsigned int red   = (buffer[i][j] & 0x00ff0000) >> 16;
-				img[count] = red; count++;
-				unsigned int green = (buffer[i][j] & 0x0000ff00) >> 8;
-				img[count] = green; count++;
-				unsigned int blue  = (buffer[i][j] & 0x00ff00ff);
-				img[count] = blue; count++;
-				
-				cout << red << " " <<green <<" " <<blue <<" " <<endl;
+//				unsigned int red   = (buffer[i][j] & 0x00ff0000) >> 16;
+//				img[count] = red; count++;
+//				unsigned int green = (buffer[i][j] & 0x0000ff00) >> 8;
+//				img[count] = green; count++;
+//				unsigned int blue  = (buffer[i][j] & 0x00ff00ff);
+//				img[count] = blue; count++;
+//				
+				img[count] = buffer[i][j]; count++;
+				img[count] = buffer[i][j]; count++;
+				img[count] = buffer[i][j]; count++;
+				//img[count] = buffer[i][j]; count++;
+				//cout << red << " " <<green <<" " <<blue <<" " <<endl;
 			}
 		}
 		
