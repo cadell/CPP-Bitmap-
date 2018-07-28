@@ -1,9 +1,11 @@
 #include <iostream>
 #include <fstream>
+#include <string>
+#include <vector>
 
 using namespace std;
 
-
+std::vector<std::string> string_buffer;
 
 void writeBMP(unsigned char *img, int h, int w)
 {
@@ -33,7 +35,9 @@ void writeBMP(unsigned char *img, int h, int w)
 	for(int i=0; i<h; i++)
 	{
 		fwrite(img+(w*(h-i-1)*3),3,w,f);
+		string_buffer.push_back(reinterpret_cast<char *>(img+(w*(h-i-1)*3)));
 		fwrite(bmppad,1,(4-(w*3)%4)%4,f);
+		string_buffer.push_back(reinterpret_cast<char *>(bmppad)));
 	}
 
 	free(img);
@@ -89,80 +93,24 @@ int main(int argc, char *argv[])
 			img[temp] = 255; temp++;
 			auto green = (buffer[0][i] & 0x07E0) >> 5;
 			auto green_8bit = green << 2;
-			img[temp] = 255; temp++;
+			img[temp] = 0; temp++;
 			auto blue = (buffer[0][i] & 0x001F);
 			auto blue_8bit = blue << 3;
 			img[temp] = 255; temp++;
 //			
-			if(print_once)
-			{
-				cout << i <<endl;
-				cout <<buffer[1][i] <<endl;
-				print_once = false;
-			}
 			red = (buffer[1][i] & 0xF800) >> 11; 
 			red_8bit = red << 3;
-			cout << red_8bit <<" red"<<endl;
+//			cout << red_8bit <<" red"<<endl;
 			img[temp] = 255; temp++;
 			green = (buffer[1][i] & 0x07E0) >> 5;
 			green_8bit = green << 2;
-			cout << green_8bit <<" green"<<endl;
-			img[temp] = 255; temp++;
+//			cout << green_8bit <<" green"<<endl;
+			img[temp] = 0; temp++;
 			blue = (buffer[1][i] & 0x001F);
 			blue_8bit = blue << 3;
-			cout << blue_8bit <<" blue" <<endl;
+//			cout << blue_8bit <<" blue" <<endl;
 			img[temp] = 255; temp++;
-//			
-//			red = (buffer[2][i] & 0xF800) >> 11; 
-//			red_8bit = red << 3;
-//			img[temp] = red_8bit; temp++;
-//			green = (buffer[2][i] & 0x07E0) >> 5;
-//			green_8bit = green << 2;
-//			img[temp] = green_8bit; temp++;
-//			blue = (buffer[2][i] & 0x001F);
-//			blue_8bit = blue << 3;
-//			img[temp] = blue_8bit; temp++;
-//			
-//			red = (buffer[3][i] & 0xF800) >> 11; 
-//			red_8bit = red << 3;
-//			img[temp] = red_8bit; temp++;
-//			green = (buffer[3][i] & 0x07E0) >> 5;
-//			green_8bit = green << 2;
-//			img[temp] = green_8bit; temp++;
-//			blue = (buffer[3][i] & 0x001F);
-//			blue_8bit = blue << 3;
-//			img[temp] = blue_8bit; temp++;
-//			
-//			red = (buffer[4][i] & 0xF800) >> 11; 
-//			red_8bit = red << 3;
-//			img[temp] = red_8bit; temp++;
-//			green = (buffer[4][i] & 0x07E0) >> 5;
-//			green_8bit = green << 2;
-//			img[temp] = green_8bit; temp++;
-//			blue = (buffer[4][i] & 0x001F);
-//			blue_8bit = blue << 3;
-//			img[temp] = blue_8bit; temp++;
-//			
-//			red = (buffer[4][i] & 0xF800) >> 11; 
-//			red_8bit = red << 3;
-//			img[temp] = red_8bit; temp++;
-//			green = (buffer[4][i] & 0x07E0) >> 5;
-//			green_8bit = green << 2;
-//			img[temp] = green_8bit; temp++;
-//			blue = (buffer[4][i] & 0x001F);
-//			blue_8bit = blue << 3;
-//			img[temp] = blue_8bit; temp++;
-//			
-//			red = (buffer[5][i] & 0xF800) >> 11; 
-//			red_8bit = red << 3;
-//			img[temp] = red_8bit; temp++;
-//			green = (buffer[5][i] & 0x07E0) >> 5;
-//			green_8bit = green << 2;
-//			img[temp] = green_8bit; temp++;
-//			blue = (buffer[5][i] & 0x001F);
-//			blue_8bit = blue << 3;
-//			img[temp] = blue_8bit; temp++;
-						
+//							
 		}
 		
 		//std::cout << sizeof(img);
