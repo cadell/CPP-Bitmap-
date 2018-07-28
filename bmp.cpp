@@ -44,7 +44,7 @@ void writeBMP(unsigned char *img, int h, int w)
 int main(int argc, char *argv[]) 
 {
 	int count = 0;
-	//dec;are image for rgb Values
+	//dec;are image for rgb buffer[0][i]ues
 		unsigned char * img = NULL;
 		img = (unsigned char *)malloc(3*1250*1250);
 		memset(img,0,3*1250*1250);
@@ -60,25 +60,18 @@ int main(int argc, char *argv[])
 			}
 			temp_data += 65535/1250;
 		}
-		//Invert endianness before getting the "RGB" vals
+		//Invert endianness before getting the "RGB" buffer[0][i]s
 		for (unsigned short *ptr = (unsigned short*)buffer + 1250*1250; ptr>(unsigned short*)buffer; ) 
 		{
 			const unsigned short val = *(--ptr);
 			*ptr = (unsigned short)((val>>8) | ((val<<8)));
 
 		}		
-		//Get RGB Color of every pixle ??? // Maybe we don't wan't the RGB Component? so Just the "alpha" channel
+		//Get RGB Color of every pixle ??? // Since we are building a grayScale image the RGB values need to be the same? no need to avg?
 		for(int i =0; i < 1250; i++)
 		{
 			for(int j =0; j < 1250; j++)
-			{
-//				unsigned int red   = (buffer[i][j] & 0x00ff0000) >> 16;
-//				img[count] = red; count++;
-//				unsigned int green = (buffer[i][j] & 0x0000ff00) >> 8;
-//				img[count] = green; count++;
-//				unsigned int blue  = (buffer[i][j] & 0x00ff00ff);
-//				img[count] = blue; count++;
-//				
+			{			
 				img[count] = buffer[i][j]; count++;
 				img[count] = buffer[i][j]; count++;
 				img[count] = buffer[i][j]; count++;
@@ -88,69 +81,88 @@ int main(int argc, char *argv[])
 		}
 		
 		int temp = 0;
+		bool print_once = true;
 		for(int i =0; i < 1250; i++)
 		{
-			unsigned int red   = (buffer[0][i] & 0x00ff0000) >> 16;
-			img[temp] = red; temp++;
-			unsigned int green = (buffer[0][i] & 0x0000ff00) >> 8;
-			img[temp] = green; temp++;
-			unsigned int blue  = (buffer[0][i] & 0x00ff00ff);
-			img[temp] = blue; temp++;
-			
-			
-			red   = (buffer[1][i] & 0x00ff0000) >> 16;
-			img[temp] = red; temp++;
-			green = (buffer[1][i] & 0x0000ff00) >> 8;
-			img[temp] = green; temp++;
-			blue  = (buffer[1][i] & 0x00ff00ff);
-			img[temp] = blue; temp++;
-			
-			
-			red   = (buffer[2][i] & 0x00ff0000) >> 16;
-			img[temp] = red; temp++;
-			green = (buffer[2][i] & 0x0000ff00) >> 8;
-			img[temp] = green; temp++;
-			blue  = (buffer[2][i] & 0x00ff00ff);
-			img[temp] = blue; temp++;
-			
-			red   = (buffer[3][i] & 0x00ff0000) >> 16;
-			img[temp] = red; temp++;
-			green = (buffer[3][i] & 0x0000ff00) >> 8;
-			img[temp] = green; temp++;
-			blue  = (buffer[3][i] & 0x00ff00ff);
-			img[temp] = blue; temp++;
-			
-			
-			red   = (buffer[4][i] & 0x00ff0000) >> 16;
-			img[temp] = red; temp++;
-			green = (buffer[4][i] & 0x0000ff00) >> 8;
-			img[temp] = green; temp++;
-			blue  = (buffer[4][i] & 0x00ff00ff);
-			img[temp] = blue; temp++;
-			
-			
-			red   = (buffer[5][i] & 0x00ff0000) >> 16;
-			img[temp] = red; temp++;
-			green = (buffer[5][i] & 0x0000ff00) >> 8;
-			img[temp] = green; temp++;
-			blue  = (buffer[5][i] & 0x00ff00ff);
-			img[temp] = blue; temp++;
-			
-			
-			red   = (buffer[6][i] & 0x00ff0000) >> 16;
-			img[temp] = red; temp++;
-			green = (buffer[6][i] & 0x0000ff00) >> 8;
-			img[temp] = green; temp++;
-			blue  = (buffer[6][i] & 0x00ff00ff);
-			img[temp] = blue; temp++;
-			
-			red   = (buffer[7][i] & 0x00ff0000) >> 16;
-			img[temp] = red; temp++;
-			green = (buffer[7][i] & 0x0000ff00) >> 8;
-			img[temp] = green; temp++;
-			blue  = (buffer[7][i] & 0x00ff00ff);
-			img[temp] = blue; temp++;
-			
+			auto red = (buffer[0][i] & 0xF800) >> 11; 
+			auto red_8bit = red << 3;
+			img[temp] = 255; temp++;
+			auto green = (buffer[0][i] & 0x07E0) >> 5;
+			auto green_8bit = green << 2;
+			img[temp] = 255; temp++;
+			auto blue = (buffer[0][i] & 0x001F);
+			auto blue_8bit = blue << 3;
+			img[temp] = 255; temp++;
+//			
+			if(print_once)
+			{
+				cout << i <<endl;
+				cout <<buffer[1][i] <<endl;
+				print_once = false;
+			}
+			red = (buffer[1][i] & 0xF800) >> 11; 
+			red_8bit = red << 3;
+			cout << red_8bit <<" red"<<endl;
+			img[temp] = 255; temp++;
+			green = (buffer[1][i] & 0x07E0) >> 5;
+			green_8bit = green << 2;
+			cout << green_8bit <<" green"<<endl;
+			img[temp] = 255; temp++;
+			blue = (buffer[1][i] & 0x001F);
+			blue_8bit = blue << 3;
+			cout << blue_8bit <<" blue" <<endl;
+			img[temp] = 255; temp++;
+//			
+//			red = (buffer[2][i] & 0xF800) >> 11; 
+//			red_8bit = red << 3;
+//			img[temp] = red_8bit; temp++;
+//			green = (buffer[2][i] & 0x07E0) >> 5;
+//			green_8bit = green << 2;
+//			img[temp] = green_8bit; temp++;
+//			blue = (buffer[2][i] & 0x001F);
+//			blue_8bit = blue << 3;
+//			img[temp] = blue_8bit; temp++;
+//			
+//			red = (buffer[3][i] & 0xF800) >> 11; 
+//			red_8bit = red << 3;
+//			img[temp] = red_8bit; temp++;
+//			green = (buffer[3][i] & 0x07E0) >> 5;
+//			green_8bit = green << 2;
+//			img[temp] = green_8bit; temp++;
+//			blue = (buffer[3][i] & 0x001F);
+//			blue_8bit = blue << 3;
+//			img[temp] = blue_8bit; temp++;
+//			
+//			red = (buffer[4][i] & 0xF800) >> 11; 
+//			red_8bit = red << 3;
+//			img[temp] = red_8bit; temp++;
+//			green = (buffer[4][i] & 0x07E0) >> 5;
+//			green_8bit = green << 2;
+//			img[temp] = green_8bit; temp++;
+//			blue = (buffer[4][i] & 0x001F);
+//			blue_8bit = blue << 3;
+//			img[temp] = blue_8bit; temp++;
+//			
+//			red = (buffer[4][i] & 0xF800) >> 11; 
+//			red_8bit = red << 3;
+//			img[temp] = red_8bit; temp++;
+//			green = (buffer[4][i] & 0x07E0) >> 5;
+//			green_8bit = green << 2;
+//			img[temp] = green_8bit; temp++;
+//			blue = (buffer[4][i] & 0x001F);
+//			blue_8bit = blue << 3;
+//			img[temp] = blue_8bit; temp++;
+//			
+//			red = (buffer[5][i] & 0xF800) >> 11; 
+//			red_8bit = red << 3;
+//			img[temp] = red_8bit; temp++;
+//			green = (buffer[5][i] & 0x07E0) >> 5;
+//			green_8bit = green << 2;
+//			img[temp] = green_8bit; temp++;
+//			blue = (buffer[5][i] & 0x001F);
+//			blue_8bit = blue << 3;
+//			img[temp] = blue_8bit; temp++;
+						
 		}
 		
 		//std::cout << sizeof(img);
