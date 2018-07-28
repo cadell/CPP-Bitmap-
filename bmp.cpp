@@ -2,6 +2,7 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <windows.h>
 
 using namespace std;
 
@@ -37,7 +38,7 @@ void writeBMP(unsigned char *img, int h, int w)
 		fwrite(img+(w*(h-i-1)*3),3,w,f);
 		string_buffer.push_back(reinterpret_cast<char *>(img+(w*(h-i-1)*3)));
 		fwrite(bmppad,1,(4-(w*3)%4)%4,f);
-		string_buffer.push_back(reinterpret_cast<char *>(bmppad)));
+		string_buffer.push_back(reinterpret_cast<char *>(bmppad));
 	}
 
 	free(img);
@@ -84,6 +85,10 @@ int main(int argc, char *argv[])
 			}
 		}
 		
+
+		
+		
+		///Draw on the image
 		int temp = 0;
 		bool print_once = true;
 		for(int i =0; i < 1250; i++)
@@ -115,6 +120,14 @@ int main(int argc, char *argv[])
 		
 		//std::cout << sizeof(img);
 		writeBMP(img,1250,1250);
+		
+		std::string image_data;
+		//Return the buffer in a string
+		for(auto const& elements : string_buffer)
+		{
+			image_data += elements;
+		}
+		
 
 }
 
